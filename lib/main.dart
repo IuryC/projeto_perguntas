@@ -7,6 +7,7 @@ void main() {
 }
 
 class _PerguntaAppState extends State<PerguntaApp> {
+  var _pontuacaoTotal = 0;
   var _perguntaSelecionada = 0;
   final _perguntas = const [
     {
@@ -38,11 +39,19 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   ];
 
-  void _responder() {
+  void _responder(int pontuacao) {
     setState(() {
       _perguntaSelecionada++;
+      _pontuacaoTotal += pontuacao;
     });
-    print(_perguntaSelecionada);
+    print(_pontuacaoTotal);
+  }
+
+  void _reiniciarQuestionario(){
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
   }
 
   bool get temPerguntaSelecionada {
@@ -63,7 +72,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntaSelecionada: _perguntaSelecionada,
                 responder: _responder,
               )
-            : Resultado(),
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
       ),
     );
   }
